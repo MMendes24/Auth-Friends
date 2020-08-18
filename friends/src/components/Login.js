@@ -1,51 +1,46 @@
 import React, { useState } from 'react'
 
-const initialFormValues = {
-    name: "",
-    age: "",
-    email: "",
+const initialLoginValues = {
+    username: "",
+    password: "",
 }
 
 const Login = () => {
-    const [ formValues, setFormValues] = useState(initialFormValues)
+    const [ loginValues, setLoginValues] = useState(initialLoginValues)
 
     const onFormChange = e => {
-        e.preventDefault()
-        setFormValues({
-            ...formValues,
+        setLoginValues({
+            ...loginValues,
             [e.target.name]: e.target.value
         })
     }
 
+    const onSubmit = e => {
+        e.preventDefault()
+        setLoginValues(initialLoginValues)
+    }
+
     return (
-        <section>
-            <h1>New Friend</h1>
-            <form>
-                <label>Name:&nbsp;
+        <section className="form-section">
+            <h1 className="form-heading">Login</h1>
+            <form className="friend-form">
+                <label className="form-label">Username:&nbsp;
                     <input 
                     name="name"
                     type="text"
-                    value={formValues.name}
+                    value={loginValues.username}
                     onChange={onFormChange}                    
                     />
                 </label>
-                <label>Age:&nbsp;
+                <label className="form-label">Password:&nbsp;
                     <input 
                     name="age"
                     type="text"
-                    value={formValues.age}
+                    value={loginValues.password}
                     onChange={onFormChange}                      
                     />
                 </label>
-                <label>Email:&nbsp;
-                    <input 
-                    name="email"
-                    type="text"
-                    value={formValues.email}
-                    onChange={onFormChange}                      
-                    />
-                </label>
-                <button>Submit</button>
+                <button className="submit" onSubmit={onSubmit}>Login</button>
             </form>
         </section>
     )
