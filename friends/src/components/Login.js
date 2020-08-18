@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, } from 'react'
+import { useHistory } from 'react-router-dom'
+
 import axiosWithAuth from '../utils/axiosWithAuth'
+
 
 const initialCredentials = {
     username: "",
     password: "",
 }
 
+
+
 const Login = () => {
+    const history = useHistory()
     const [ credentials, setCredentials] = useState(initialCredentials)
 
     const onFormChange = e => {
@@ -22,6 +28,7 @@ const Login = () => {
         .post('/api/login', credentials)
         .then(res => {
             localStorage.setItem("token", res.data.payload);
+            history.push('/friends')
         })
         .catch(err => {
             console.log(err, "You fool! You absolute buffoon!")
