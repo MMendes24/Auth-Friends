@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
+import axiosWithAuth from '../utils/axiosWithAuth'
 
-const initialLoginValues = {
+const credentials = {
     username: "",
     password: "",
 }
 
 const Login = () => {
-    const [ loginValues, setLoginValues] = useState(initialLoginValues)
+    const [ loginValues, setLoginValues] = useState(credentials)
 
     const onFormChange = e => {
         setLoginValues({
@@ -17,7 +18,15 @@ const Login = () => {
 
     const onSubmit = e => {
         e.preventDefault()
-        setLoginValues(initialLoginValues)
+        axiosWithAuth()
+        .post('/login', credentials)
+        .then(res => {
+            localStorage.setItem("token", res.data.payload);
+        })
+        .catch(err => {
+            console.log("You fool! You absolute buffoon!")
+        })
+        setLoginValues(credentials)
     }
 
     return (
@@ -26,7 +35,7 @@ const Login = () => {
             <form className="friend-form">
                 <label className="form-label">Username:&nbsp;
                     <input 
-                    name="name"
+                    name="username"
                     type="text"
                     value={loginValues.username}
                     onChange={onFormChange}                    
@@ -34,7 +43,7 @@ const Login = () => {
                 </label>
                 <label className="form-label">Password:&nbsp;
                     <input 
-                    name="age"
+                    name="password"
                     type="text"
                     value={loginValues.password}
                     onChange={onFormChange}                      
