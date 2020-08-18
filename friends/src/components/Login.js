@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import axiosWithAuth from '../utils/axiosWithAuth'
 
-const credentials = {
+const initialCredentials = {
     username: "",
     password: "",
 }
 
 const Login = () => {
-    const [ loginValues, setLoginValues] = useState(credentials)
+    const [ credentials, setCredentials] = useState(initialCredentials)
 
     const onFormChange = e => {
-        setLoginValues({
-            ...loginValues,
+        setCredentials({
+            ...credentials,
             [e.target.name]: e.target.value
         })
     }
@@ -19,25 +19,25 @@ const Login = () => {
     const onSubmit = e => {
         e.preventDefault()
         axiosWithAuth()
-        .post('/login', credentials)
+        .post('/api/login', credentials)
         .then(res => {
             localStorage.setItem("token", res.data.payload);
         })
         .catch(err => {
-            console.log("You fool! You absolute buffoon!")
+            console.log(err, "You fool! You absolute buffoon!")
         })
-        setLoginValues(credentials)
+        setCredentials(credentials)
     }
 
     return (
         <section className="form-section">
             <h1 className="form-heading">Login</h1>
-            <form className="friend-form">
+            <form  onSubmit={onSubmit} className="friend-form">
                 <label className="form-label">Username:&nbsp;
                     <input 
                     name="username"
                     type="text"
-                    value={loginValues.username}
+                    value={credentials.username}
                     onChange={onFormChange}                    
                     />
                 </label>
@@ -45,11 +45,11 @@ const Login = () => {
                     <input 
                     name="password"
                     type="text"
-                    value={loginValues.password}
+                    value={credentials.password}
                     onChange={onFormChange}                      
                     />
                 </label>
-                <button className="submit" onSubmit={onSubmit}>Login</button>
+                <button className="submit">Login</button>
             </form>
         </section>
     )

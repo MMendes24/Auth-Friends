@@ -2,9 +2,9 @@ import axios from 'axios'
 
 const axiosWithAuth = () => {
     return axios.create({
-        baseURL: "http://localhost:3000",
+        baseURL: "http://localhost:5000",
         headers: {
-            Authorization: localStorage.getItem('token')
+            Authorization: localStorage.getItem("token")
         }
     })
 }
